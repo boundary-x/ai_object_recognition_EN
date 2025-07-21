@@ -64,23 +64,23 @@ function setupCamera() {
 function createUI() {
   // Data display area
   dataDisplay = select('#dataDisplay');
-  dataDisplay.html("마이크로비트로 전송된 데이터: 없음");
+  dataDisplay.html("Data sent to micro:bit: None");
 
   // Camera control buttons
-  flipButton = createButton("↔️ 카메라 좌우 반전");
+  flipButton = createButton("↔️ Flip Camera");
   flipButton.parent('camera-control-buttons');
   flipButton.mousePressed(toggleFlip);
 
-  switchCameraButton = createButton("🔄 전후방 카메라 전환");
+  switchCameraButton = createButton("🔄 Switch Camera");
   switchCameraButton.parent('camera-control-buttons');
   switchCameraButton.mousePressed(switchCamera);
 
   // Bluetooth control buttons
-  connectBluetoothButton = createButton("🔗 블루투스 연결");
+  connectBluetoothButton = createButton("🔗 Connect");
   connectBluetoothButton.parent('bluetooth-control-buttons');
   connectBluetoothButton.mousePressed(connectBluetooth);
 
-  disconnectBluetoothButton = createButton("❌ 블루투스 연결 해제");
+  disconnectBluetoothButton = createButton("❌ Disconnect");
   disconnectBluetoothButton.parent('bluetooth-control-buttons');
   disconnectBluetoothButton.mousePressed(disconnectBluetooth);
 
@@ -121,18 +121,18 @@ function createUI() {
   confidenceLabel.parent('confidence-container');
 
   // Object detection control buttons
-  startDetectionButton = createButton("🟢 사물 인식 시작");
+  startDetectionButton = createButton("🟢 Start Detection");
   startDetectionButton.parent('object-control-buttons');
   startDetectionButton.id('startDetectionButton');
   startDetectionButton.mousePressed(() => {
     if (!isConnected) {
-      alert("블루투스가 연결되어 있지 않습니다. 블루투스를 연결하세요.");
+      alert("Bluetooth is not connected. Please connect it first.");
       return;
     }
     startObjectDetection();
   });
 
-  stopDetectionButton = createButton("🔴 사물 인식 중지");
+  stopDetectionButton = createButton("🔴 Stop Detection");
   stopDetectionButton.parent('object-control-buttons');
   stopDetectionButton.id('stopDetectionButton');
   stopDetectionButton.mousePressed(() => {
@@ -235,14 +235,14 @@ function draw() {
         const centerY = object.y + object.height / 2;
         const data = `x${Math.round(centerX)}y${Math.round(centerY)}w${Math.round(w)}h${Math.round(h)}d${detectedCount}`;
         sendBluetoothData(centerX, centerY, w, h, detectedCount);
-        dataDisplay.html(`마이크로비트로 전송된 데이터: ${data}`);
+        dataDisplay.html(`Data sent to micro:bit: ${data}`);
       }
     });
 
     
     if (!highestConfidenceObject) {
       sendBluetoothData(null); 
-      dataDisplay.html("마이크로비트로 전송된 데이터: 없음");
+      dataDisplay.html("Data sent to micro:bit: None");
     }
   }
 }
@@ -285,7 +285,7 @@ function disconnectBluetooth() {
 
 function updateBluetoothStatus() {
   const statusElement = select("#bluetoothStatus");
-  statusElement.html(`상태: ${bluetoothStatus}`);
+  statusElement.html(`Status: ${bluetoothStatus}`);
   if (isConnected) {
     statusElement.style('background-color', '#d0f0fd'); 
     statusElement.style('color', '#FE818D');
